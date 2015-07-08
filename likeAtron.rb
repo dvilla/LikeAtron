@@ -11,10 +11,10 @@ class LikeAtron < Minitest::Test
     @driver = Selenium::WebDriver.for :chrome
     @base_url = 'https://www.facebook.com'
     @driver.navigate.to @base_url
-
   end
 
   def test_login
+    @driver.manage.timeouts.implicit_wait = 20
     email_input = @driver.find_element(:id, 'email')
     password_input = @driver.find_element(:id, 'pass')
     email_input.send_keys(username)
@@ -24,10 +24,13 @@ class LikeAtron < Minitest::Test
     @driver.navigate.to (@base_url + '/Daniche')
     profile_pic = @driver.find_element(:class, 'profilePic')
     profile_pic.click
-    like_button =  @driver.find_element(:class, 'like')
-    like_button.click
-    next_photo = @driver.find_element(:class, 'next')
-    next_photo.click
+    5.times do
+      like_button =  @driver.find_element(:class, 'like')
+      next_photo = @driver.find_element(:class, 'next')
+      like_button.click
+      next_photo.click
+    end
+    puts "ALL COOL! likes made... everything went fine!"
   end
 
   def teardown
